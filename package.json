@@ -1,0 +1,10 @@
+{
+  "name": "@prismify/ko-recipes",
+  "version": "1.0.0",
+  "description": "ko recipes for the web",
+  "main": "",
+  "repository": "https://github.com/prismify-co/ko-recipes.git",
+  "author": "Takeshi Iwana <iwatakeshi@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
