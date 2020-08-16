@@ -6,5 +6,8 @@
   "repository": "https://github.com/prismify-co/ko-recipes.git",
   "author": "Takeshi Iwana <iwatakeshi@gmail.com>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@prismify/ko": "^0.0.11"
+  }
 }
