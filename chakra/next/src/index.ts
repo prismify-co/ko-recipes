@@ -1,4 +1,4 @@
-import builder from '@prismify/ko/lib/packages/installer/builder'
+import { builder } from '@prismify/ko/lib/packages/builder'
 import { builders } from 'ast-types/gen/builders'
 import { ASTNode } from 'ast-types/lib/types'
 import { NamedTypes } from 'ast-types/gen/namedTypes'
