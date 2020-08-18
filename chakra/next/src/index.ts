@@ -56,7 +56,7 @@ export default builder()
   .setOwner('iwatakeshi@gmail.com')
   .addDependencyStep({
     name: 'Add npm dependencies',
-    explanation: `Chakra requires some other dependencies like emotion to work`,
+    summary: `Chakra requires some other dependencies like emotion to work`,
     packages: [
       '@chakra-ui/core',
       '@emotion/core',
@@ -66,7 +66,7 @@ export default builder()
   })
   .addTransformStep({
     name: 'Import ThemeProvider and CSSReset component',
-    explanation: `We can import the chakra provider into _app, so it is accessible to the whole app`,
+    summary: `We can import the chakra provider into _app, so it is accessible to the whole app`,
     files: [`pages/_app${extension(true)}`],
     transform(ast: ASTNode, b: builders, t: NamedTypes) {
       const stylesImport = b.importDeclaration(
