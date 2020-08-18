@@ -967,10 +967,10 @@
   resolved "https://registry.yarnpkg.com/@oclif/screen/-/screen-1.0.4.tgz#b740f68609dfae8aa71c3a6cab15d816407ba493"
   integrity sha512-60CHpq+eqnTxLZQ4PGHYNwUX572hgpMHGPtTWMjdTMsAvlm69lZV/4ly6O3sAYkomo4NggGcomrDpBe34rxUqw==
 
-"@prismify/ko@^0.0.21":
-  version "0.0.21"
-  resolved "https://registry.yarnpkg.com/@prismify/ko/-/ko-0.0.21.tgz#801057054c65027f050d9e4d3a0cdba716b54c4b"
-  integrity sha512-rbf8xEC62Tq4fSoj0MYwOQeZocN0rR0ZTNpQiipBbgEX38BXfY4aTdzFpxRd6lq3UaMAK9hNXxWptpJ7vlgkeA==
+"@prismify/ko@^0.0.22":
+  version "0.0.22"
+  resolved "https://registry.yarnpkg.com/@prismify/ko/-/ko-0.0.22.tgz#7713eb6be18591e12ce41d8c813e09b78d54d75d"
+  integrity sha512-97nkXb1mwM8kY3HmspPhfI6nybbkGEbcuNq8E8QCtd6zDybLh5PH/JG+y9jW8JIk2rePnMXfdPtSJ6A0Qz+QdQ==
   dependencies:
     "@babel/core" "^7.11.1"
     "@babel/parser" "^7.11.3"

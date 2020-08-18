@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@prismify/ko": "^0.0.21",
+    "@prismify/ko": "^0.0.22",
     "ast-types": "^0.13.3",
     "recast": "^0.19.1"
   },
