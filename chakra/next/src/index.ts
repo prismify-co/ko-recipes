@@ -1,4 +1,4 @@
-import { builder } from '@prismify/ko/lib/packages/builder'
+import builder from '@prismify/ko/lib/packages/builder'
 import { builders } from 'ast-types/gen/builders'
 import { ASTNode } from 'ast-types/lib/types'
 import { NamedTypes } from 'ast-types/gen/namedTypes'
@@ -67,7 +67,7 @@ export default builder()
   .addTransformStep({
     name: 'Import ThemeProvider and CSSReset component',
     summary: `We can import the chakra provider into _app, so it is accessible to the whole app`,
-    files: [`pages/_app${extension(true)}`],
+    source: [`pages/_app${extension(true)}`],
     transform(ast: ASTNode, b: builders, t: NamedTypes) {
       const stylesImport = b.importDeclaration(
         [
