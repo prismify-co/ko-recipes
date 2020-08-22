@@ -5,11 +5,13 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@prismify/ko": "^0.1.0-7",
+    "@prismify/ko": "^0.2.0",
     "ast-types": "^0.13.3",
+    "jscodeshift": "^0.10.0",
     "recast": "^0.19.1"
   },
   "devDependencies": {
+    "@types/jscodeshift": "^0.7.1",
     "@types/node": "^14.0.27"
   }
 }
