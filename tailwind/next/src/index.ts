@@ -40,7 +40,7 @@ These config files can be extended for additional customization, but for now we'
     transform(program: Collection<j.Program>) {
       const stylesImport = j.importDeclaration(
         [],
-        j.literal('app/styles/index.css')
+        j.literal('app/styles/main.css')
       )
       return addImport(program, stylesImport)
     },
