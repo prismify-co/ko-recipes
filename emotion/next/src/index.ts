@@ -4,56 +4,11 @@ import { Collection } from 'jscodeshift/src/Collection'
 import builder from '@prismify/ko/lib/packages/builder'
 import extension from './utils/extension'
 import { addImport } from './utils/add-import'
-
-function wrapComponentWithCacheProvider(program: Collection<j.Program>) {
-  program.find(j.JSXIdentifier, { name: 'Component' }).forEach((path) => {
-    j(path.parent).replaceWith(
-      j.jsxElement(
-        j.jsxOpeningElement(j.jsxIdentifier('CacheProvider'), [
-          j.jsxAttribute(
-            j.jsxIdentifier('value'),
-            j.jsxExpressionContainer(j.identifier('cache'))
-          ),
-        ]),
-        j.jsxClosingElement(j.jsxIdentifier('CacheProvider')),
-        [j.jsxText('\n'), path.parent.parent.node, j.jsxText('\n')]
-      )
-    )
-  })
-  return program
-}
-
-function applyGlobalStyles(program: Collection<j.Program>) {
-  program.find(j.ExportDefaultDeclaration).forEach((exportPath) => {
-    j(exportPath)
-      .find(j.JSXElement, {
-        openingElement: { name: { name: 'CacheProvider' } },
-      })
-      .forEach((elementPath) => {
-        if (Array.isArray(elementPath.node.children)) {
-          elementPath.node.children.splice(0, 0, j.literal('\n'))
-          elementPath.node.children.splice(
-            1,
-            0,
-            j.jsxExpressionContainer(j.identifier('globalStyles'))
-          )
-        }
-      })
-  })
-
-  return program
-}
-
-function addMethodToCustomDocument(
-  program: Collection<j.Program>,
-  methodToAdd: j.MethodDefinition
-) {
-  program.find(j.ClassBody).forEach((path) => {
-    path.node.body.splice(0, 0, methodToAdd)
-  })
-
-  return program
-}
+import {
+  updateDocument,
+  wrapComponentWithCacheProvider,
+  applyGlobalStyles,
+} from './utils/helpers'
 
 export default builder()
   .setName('Emotion')
@@ -78,6 +33,13 @@ We'll install @emotion/core and @emotion/styled for general usage, as well as em
     destination: 'styles',
     source: join(__dirname, 'templates', 'styles', '*.tsx'),
     context: {},
+  })
+  .addTransformStep({
+    name: 'Add Emotion to _document',
+    source: [`pages/_document${extension(true)}`],
+    transform(program) {
+      return updateDocument(program)
+    },
   })
   .addTransformStep({
     name: "Enable Emotion's built-in cache",
@@ -113,131 +75,3 @@ We'll install @emotion/core and @emotion/styled for general usage, as well as em
       return applyGlobalStyles(program)
     },
   })
-  .addTransformStep({
-    name: 'Extract critical CSS',
-    summary: `We will now call Emotion's extractCritical function in the getInitialProps method of our custom Document class to extract the critical CSS on the server.
-We also inject a style tag to inline the critical styles for every server response.`,
-    source: [`pages/_app${extension(true)}`],
-    transform(program: Collection<j.Program>) {
-      const extractCriticalImport = j.importDeclaration(
-        [j.importSpecifier(j.identifier('extractCritical'))],
-        j.literal('emotion-server')
-      )
-
-      const ctxParam = j.identifier('ctx')
-      ctxParam.typeAnnotation = j.tsTypeAnnotation(
-        j.tsTypeReference(j.identifier('DocumentContext'))
-      )
-
-      const getInitialPropsBody = j.blockStatement([
-        j.variableDeclaration('const', [
-          j.variableDeclarator(
-            j.identifier('initialProps'),
-            j.awaitExpression(
-              j.callExpression(
-                j.memberExpression(
-                  j.identifier('Document'),
-                  j.identifier('getInitialProps')
-                ),
-                [j.identifier('ctx')]
-              )
-            )
-          ),
-        ]),
-        j.variableDeclaration('const', [
-          j.variableDeclarator(
-            j.identifier('styles'),
-            j.callExpression(j.identifier('extractCritical'), [
-              j.memberExpression(
-                j.identifier('initialProps'),
-                j.identifier('html')
-              ),
-            ])
-          ),
-        ]),
-        j.returnStatement(
-          j.objectExpression([
-            j.spreadElement(j.identifier('initialProps')),
-            j.property(
-              'init',
-              j.identifier('styles'),
-              // TODO: this should be b.jsxFragment(b.jsxOpeningFragment(), b.jsxClosingFragment(), [
-              // but it errors: Cannot read property 'selfClosing' of undefined
-              // @see https://github.com/facebook/jscodeshift/issues/368
-              j.jsxElement(
-                j.jsxOpeningElement(j.jsxIdentifier('')),
-                j.jsxClosingElement(j.jsxIdentifier('')),
-                [
-                  j.literal('\n          '),
-                  j.jsxExpressionContainer(
-                    j.memberExpression(
-                      j.identifier('initialProps'),
-                      j.identifier('styles')
-                    )
-                  ),
-                  j.literal('\n          '),
-                  j.jsxElement(
-                    j.jsxOpeningElement(
-                      j.jsxIdentifier('style'),
-                      [
-                        j.jsxAttribute(
-                          j.jsxIdentifier('data-emotion-css'),
-                          j.jsxExpressionContainer(
-                            j.callExpression(
-                              j.memberExpression(
-                                j.memberExpression(
-                                  j.identifier('styles'),
-                                  j.identifier('ids')
-                                ),
-                                j.identifier('join')
-                              ),
-                              [j.literal(' ')]
-                            )
-                          )
-                        ),
-                        j.jsxAttribute(
-                          j.jsxIdentifier('dangerouslySetInnerHTML'),
-                          j.jsxExpressionContainer(
-                            j.objectExpression([
-                              j.property(
-                                'init',
-                                j.identifier('__html'),
-                                j.memberExpression(
-                                  j.identifier('styles'),
-                                  j.identifier('css')
-                                )
-                              ),
-                            ])
-                          )
-                        ),
-                      ],
-                      true
-                    )
-                  ),
-                  j.literal('\n        '),
-                ]
-              )
-            ),
-          ])
-        ),
-      ])
-
-      const getInitialPropsFuncExpr = j.functionExpression(
-        null,
-        [ctxParam],
-        getInitialPropsBody
-      )
-      getInitialPropsFuncExpr.async = true
-
-      const getInitialPropsMethod = j.methodDefinition(
-        'method',
-        j.identifier('getInitialProps'),
-        getInitialPropsFuncExpr,
-        true // static
-      )
-
-      addImport(program, extractCriticalImport)
-      return addMethodToCustomDocument(program, getInitialPropsMethod)
-    },
-  })
-  .build()
