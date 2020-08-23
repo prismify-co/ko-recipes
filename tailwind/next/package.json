@@ -1,7 +1,7 @@
 {
   "main": "src/index.ts",
   "dependencies": {
-    "@prismify/ko": "^0.3.1",
+    "@prismify/ko": "^0.3.2",
     "jscodeshift": "^0.10.0"
   },
   "devDependencies": {
