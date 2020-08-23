@@ -24,14 +24,13 @@ We'll install the Tailwind library itself, as well as PostCSS for removing unuse
     summary: `In order to set up Tailwind CSS properly, we need to include a few configuration files. We'll configure Tailwind CSS to know where your app's pages live, and PostCSS for elimination of unused styles.
 These config files can be extended for additional customization, but for now we'll just give the minimum required to get started.`,
     destination: '.',
-    source: join(__dirname, 'templates', 'config', '*.js'),
+    source: join(__dirname, 'templates', 'config', '*.js')
   })
   .addFileStep({
     name: 'Add base Tailwind CSS styles',
     summary: `Next, we need to actually create some stylesheets! These stylesheets can either be modified to include global styles for your app, or you can stick to just using classnames in your components.`,
     destination: './app',
-    source: join(__dirname, 'templates', 'styles'),
-    context: {},
+    source: join(__dirname, 'templates', 'styles')
   })
   .addTransformStep({
     name: 'Import stylesheets',
