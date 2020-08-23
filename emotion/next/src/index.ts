@@ -75,3 +75,4 @@ We'll install @emotion/core and @emotion/styled for general usage, as well as em
       return applyGlobalStyles(program)
     },
   })
+  .build()
