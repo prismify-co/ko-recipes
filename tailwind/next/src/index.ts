@@ -29,8 +29,8 @@ These config files can be extended for additional customization, but for now we'
   .addFileStep({
     name: 'Add base Tailwind CSS styles',
     summary: `Next, we need to actually create some stylesheets! These stylesheets can either be modified to include global styles for your app, or you can stick to just using classnames in your components.`,
-    destination: './app',
-    source: join(__dirname, 'templates', 'styles')
+    destination: './styles',
+    source: join(__dirname, 'templates', 'styles', '*.css')
   })
   .addTransformStep({
     name: 'Import stylesheets',
