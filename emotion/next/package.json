@@ -1,0 +1,11 @@
+{
+  "main": "src/index.ts",
+  "dependencies": {
+    "@prismify/ko": "^0.3.2",
+    "jscodeshift": "^0.10.0"
+  },
+  "devDependencies": {
+    "@types/jscodeshift": "^0.7.1",
+    "@types/node": "^14.6.0"
+  }
+}
