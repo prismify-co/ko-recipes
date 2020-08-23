@@ -75,7 +75,7 @@ We'll install @emotion/core and @emotion/styled for general usage, as well as em
   .addFileStep({
     name: 'Create global styles',
     summary: `First, we will create some styles. We'll provide some default global styles, but feel free to customize or even remove them as you see fit.`,
-    destination: './styles',
+    destination: 'styles',
     source: join(__dirname, 'templates', 'styles', '*.tsx'),
     context: {},
   })
