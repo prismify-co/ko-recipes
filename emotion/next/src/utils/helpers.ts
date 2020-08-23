@@ -47,21 +47,17 @@ export function updateDocument(program: Collection<j.Program>) {
     j.literal('emotion-server')
   )
 
-  program = addImport(program, extractCriticalImport)
-  const klass = program.find(j.ClassDeclaration).filter((path) => {
-    return path.value?.id?.name === 'MyDocument'
-  })
-
-  // const styles = extractCritical(initialProps.html)
-  klass
+  // addImport(program, extractCriticalImport)
+  addImport(program, extractCriticalImport)
+    .find(j.ClassDeclaration)
     .find(j.ClassBody)
-    .find(j.MethodDefinition)
-    .filter((path) => (path.value?.key as any)?.name === 'getInitialProps')
-    .find(j.FunctionExpression)
+    .find(j.ClassMethod)
+    .filter(
+      (path) => (path.value.key as j.Identifier).name === 'getInitialProps'
+    )
     .find(j.BlockStatement)
     .forEach((path) => {
-      console.log(path)
-      let body = path.value.body
+      let body = [...path.value.body]
       body = body.reverse()
       let [returnStatement, ...rest] = body
 
@@ -142,15 +138,9 @@ export function updateDocument(program: Collection<j.Program>) {
           )
         )
       )
-      console.log(properties)
 
       body = [returnStatement, extractCrititcal, ...rest].reverse()
-
-      j(path).replaceWith(j.blockStatement(body))
-
-      return path
+      path.replace(j.blockStatement(body))
     })
-
-  program.find(j.ClassDeclaration).replaceWith(klass)
   return program
 }
