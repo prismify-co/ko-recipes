@@ -5,7 +5,7 @@ export const globalStyles = (
     styles={css`
       html,
       body {
-        background-color: papayawhip;
+        background-color: white;
         font-family: Helvetica, Arial, sans-serif;
         font-size: 24px;
         margin: 0;

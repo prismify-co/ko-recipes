@@ -3,7 +3,7 @@ import { Collection } from 'jscodeshift/src/Collection'
 import { addImport } from './add-import'
 
 export function applyGlobalStyles(program: Collection<j.Program>) {
-  program.find(j.ExportDefaultDeclaration).forEach((exportPath) => {
+  program.find(j.FunctionDeclaration).forEach((exportPath) => {
     j(exportPath)
       .find(j.JSXElement, {
         openingElement: { name: { name: 'CacheProvider' } },
