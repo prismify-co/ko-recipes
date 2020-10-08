@@ -8,7 +8,7 @@ export const transformDocument: Transformer = (program) => {
     j.literal('@material-ui/core/styles')
   )
 
-  addImport(program, serverStyleSheetsImport)
+  program = addImport(program, serverStyleSheetsImport)
 
   let isReactImported = false
 
@@ -163,7 +163,7 @@ export const transformDocument: Transformer = (program) => {
       [j.importDefaultSpecifier(j.identifier('React'))],
       j.literal('react')
     )
-    addImport(program, reactImport)
+    program = addImport(program, reactImport)
   }
   return program
 }
