@@ -47,6 +47,7 @@ export const transformDocument: Transformer = (program) => {
     })
     .find(j.MethodDefinition)
     .forEach((path) => {
+      console.log(path.value.key)
       if ((path.value.key as any).name !== 'getInitialProps') return
       const body = j(path).find(j.BlockStatement).get('body')
       const [variableDeclaration] = body.value
