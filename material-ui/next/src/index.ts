@@ -35,7 +35,7 @@ export default builder()
   .setOwner('iwatakeshi@gmail.com')
   .addDependencyStep({
     name: 'Add npm dependencies',
-    packages: ['@chakra-ui/core@next'],
+    packages: ['@material-ui/core'],
   })
   .addTransformStep({
     name: 'Import ThemeProvider and CSSReset component',
