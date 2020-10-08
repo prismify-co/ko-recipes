@@ -3,7 +3,8 @@ import { Collection } from 'jscodeshift/src/Collection'
 
 export function addImport(
   program: Collection<j.Program>,
-  importToAdd: j.ImportDeclaration
+  importToAdd: j.ImportDeclaration,
+  condition: boolean = false
 ): Collection<j.Program> {
   const importStatementCount = program.find(j.ImportDeclaration).length
   if (importStatementCount === 0) {
@@ -11,7 +12,7 @@ export function addImport(
     return program
   }
   program.find(j.ImportDeclaration).forEach((stmt, idx) => {
-    if (idx === importStatementCount - 1) {
+    if (idx === importStatementCount - 1 && condition === false) {
       stmt.replace(stmt.node, importToAdd)
     }
   })
