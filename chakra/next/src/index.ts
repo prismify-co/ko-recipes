@@ -11,17 +11,9 @@ function wrapComponentWithThemeProvider(program: Collection<j.Program>) {
     .forEach((path: NodePath) => {
       j(path.parent).replaceWith(
         j.jsxElement(
-          j.jsxOpeningElement(j.jsxIdentifier('ThemeProvider')),
-          j.jsxClosingElement(j.jsxIdentifier('ThemeProvider')),
-          [
-            j.jsxText('\n'),
-            j.jsxElement(
-              j.jsxOpeningElement(j.jsxIdentifier('CSSReset'), [], true)
-            ),
-            j.jsxText('\n'),
-            path.parent.parent.node,
-            j.jsxText('\n'),
-          ]
+          j.jsxOpeningElement(j.jsxIdentifier('ChakraProvider')),
+          j.jsxClosingElement(j.jsxIdentifier('ChakraProvider')),
+          [j.jsxText('\n'), path.parent.parent.node, j.jsxText('\n')]
         )
       )
     })
@@ -37,12 +29,7 @@ export default builder()
   .addDependencyStep({
     name: 'Add npm dependencies',
     summary: `Chakra requires some other dependencies like emotion to work`,
-    packages: [
-      '@chakra-ui/core',
-      '@emotion/core',
-      '@emotion/styled',
-      'emotion-theming',
-    ],
+    packages: ['@chakra-ui/core@next'],
   })
   .addTransformStep({
     name: 'Import ThemeProvider and CSSReset component',
@@ -50,10 +37,7 @@ export default builder()
     source: [`pages/_app${extension(true)}`],
     transform(program) {
       const stylesImport = j.importDeclaration(
-        [
-          j.importSpecifier(j.identifier('CSSReset')),
-          j.importSpecifier(j.identifier('ThemeProvider')),
-        ],
+        [j.importSpecifier(j.identifier('ChakraProvider'))],
         j.literal('@chakra-ui/core')
       )
 
