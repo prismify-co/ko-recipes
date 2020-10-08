@@ -42,7 +42,8 @@ export const transformDocument: Transformer = (program) => {
   //     )
   //   }
   // })
-  program.find(j.MethodDefinition).forEach((path) => {
+
+  return program.find(j.MethodDefinition).forEach((path) => {
     console.log(path.value.key)
     if ((path.value.key as any).name !== 'getInitialProps') return
     const body = j(path).find(j.BlockStatement).get('body')
@@ -153,14 +154,4 @@ export const transformDocument: Transformer = (program) => {
 
     j(path).replaceWith(classMethod)
   })
-
-  // import React if it wasn't already imported
-  if (!isReactImported) {
-    const reactImport = j.importDeclaration(
-      [j.importDefaultSpecifier(j.identifier('React'))],
-      j.literal('react')
-    )
-    program = addImport(program, reactImport)
-  }
-  return program
 }
