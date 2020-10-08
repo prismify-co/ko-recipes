@@ -42,116 +42,116 @@ export const transformDocument: Transformer = (program) => {
   //     )
   //   }
   // })
-
-  return program.find(j.MethodDefinition).forEach((path) => {
+  console.log(program)
+  return program.find(j.ClassMethod).forEach((path) => {
     console.log(path.value.key)
-    if ((path.value.key as any).name !== 'getInitialProps') return
-    const body = j(path).find(j.BlockStatement).get('body')
-    const [variableDeclaration] = body.value
-    const sheets = j.variableDeclaration('const', [
-      j.variableDeclarator(
-        j.identifier('sheets'),
-        j.newExpression(j.identifier('ServerStyleSheets'), [])
-      ),
-    ])
+    // if ((path.value.key as any).name !== 'getInitialProps') return
+    // const body = j(path).find(j.BlockStatement).get('body')
+    // const [variableDeclaration] = body.value
+    // const sheets = j.variableDeclaration('const', [
+    //   j.variableDeclarator(
+    //     j.identifier('sheets'),
+    //     j.newExpression(j.identifier('ServerStyleSheets'), [])
+    //   ),
+    // ])
 
-    const originalRenderPage = j.variableDeclaration('const', [
-      j.variableDeclarator(
-        j.identifier('originalRenderPage'),
-        j.memberExpression(j.identifier('ctx'), j.identifier('renderPage'))
-      ),
-    ])
+    // const originalRenderPage = j.variableDeclaration('const', [
+    //   j.variableDeclarator(
+    //     j.identifier('originalRenderPage'),
+    //     j.memberExpression(j.identifier('ctx'), j.identifier('renderPage'))
+    //   ),
+    // ])
 
-    const ctxRenderPage = j.expressionStatement(
-      j.assignmentExpression(
-        '=',
-        j.memberExpression(j.identifier('ctx'), j.identifier('renderPage')),
-        j.arrowFunctionExpression(
-          [],
-          j.callExpression(j.identifier('originalRenderPage'), [
-            j.objectExpression([
-              j.objectProperty(
-                j.identifier('enhanceApp'),
-                j.arrowFunctionExpression(
-                  [j.identifier('App')],
-                  j.arrowFunctionExpression(
-                    [j.identifier('props')],
-                    j.callExpression(
-                      j.memberExpression(
-                        j.identifier('sheets'),
-                        j.identifier('collect')
-                      ),
-                      [
-                        j.jsxElement(
-                          j.jsxOpeningElement(
-                            j.jsxIdentifier('App'),
-                            [j.jsxSpreadAttribute(j.identifier('props'))],
-                            true
-                          )
-                        ),
-                      ]
-                    )
-                  )
-                )
-              ),
-            ]),
-          ])
-        )
-      )
-    )
+    // const ctxRenderPage = j.expressionStatement(
+    //   j.assignmentExpression(
+    //     '=',
+    //     j.memberExpression(j.identifier('ctx'), j.identifier('renderPage')),
+    //     j.arrowFunctionExpression(
+    //       [],
+    //       j.callExpression(j.identifier('originalRenderPage'), [
+    //         j.objectExpression([
+    //           j.objectProperty(
+    //             j.identifier('enhanceApp'),
+    //             j.arrowFunctionExpression(
+    //               [j.identifier('App')],
+    //               j.arrowFunctionExpression(
+    //                 [j.identifier('props')],
+    //                 j.callExpression(
+    //                   j.memberExpression(
+    //                     j.identifier('sheets'),
+    //                     j.identifier('collect')
+    //                   ),
+    //                   [
+    //                     j.jsxElement(
+    //                       j.jsxOpeningElement(
+    //                         j.jsxIdentifier('App'),
+    //                         [j.jsxSpreadAttribute(j.identifier('props'))],
+    //                         true
+    //                       )
+    //                     ),
+    //                   ]
+    //                 )
+    //               )
+    //             )
+    //           ),
+    //         ]),
+    //       ])
+    //     )
+    //   )
+    // )
 
-    const returnStatement = j.returnStatement(
-      j.objectExpression([
-        j.spreadElement(j.identifier('initialProps')),
-        j.objectProperty(
-          j.identifier('styles'),
-          j.arrayExpression([
-            j.spreadElement(
-              j.callExpression(
-                j.memberExpression(
-                  j.memberExpression(
-                    j.identifier('React'),
-                    j.identifier('Children')
-                  ),
-                  j.identifier('toArray')
-                ),
-                [
-                  j.memberExpression(
-                    j.identifier('initialProps'),
-                    j.identifier('styles')
-                  ),
-                ]
-              )
-            ),
-            j.callExpression(
-              j.memberExpression(
-                j.identifier('sheets'),
-                j.identifier('getStyleElement')
-              ),
-              []
-            ),
-          ])
-        ),
-      ])
-    )
+    // const returnStatement = j.returnStatement(
+    //   j.objectExpression([
+    //     j.spreadElement(j.identifier('initialProps')),
+    //     j.objectProperty(
+    //       j.identifier('styles'),
+    //       j.arrayExpression([
+    //         j.spreadElement(
+    //           j.callExpression(
+    //             j.memberExpression(
+    //               j.memberExpression(
+    //                 j.identifier('React'),
+    //                 j.identifier('Children')
+    //               ),
+    //               j.identifier('toArray')
+    //             ),
+    //             [
+    //               j.memberExpression(
+    //                 j.identifier('initialProps'),
+    //                 j.identifier('styles')
+    //               ),
+    //             ]
+    //           )
+    //         ),
+    //         j.callExpression(
+    //           j.memberExpression(
+    //             j.identifier('sheets'),
+    //             j.identifier('getStyleElement')
+    //           ),
+    //           []
+    //         ),
+    //       ])
+    //     ),
+    //   ])
+    // )
 
-    const classMethod = j.classMethod(
-      'method',
-      j.identifier('getIntialProps'),
-      [j.identifier('ctx')],
-      j.blockStatement([
-        sheets,
-        originalRenderPage,
-        variableDeclaration,
-        ctxRenderPage,
-        returnStatement,
-      ]),
-      false,
-      true
-    )
+    // const classMethod = j.classMethod(
+    //   'method',
+    //   j.identifier('getIntialProps'),
+    //   [j.identifier('ctx')],
+    //   j.blockStatement([
+    //     sheets,
+    //     originalRenderPage,
+    //     variableDeclaration,
+    //     ctxRenderPage,
+    //     returnStatement,
+    //   ]),
+    //   false,
+    //   true
+    // )
 
-    classMethod.async = true
+    // classMethod.async = true
 
-    j(path).replaceWith(classMethod)
+    // j(path).replaceWith(classMethod)
   })
 }
