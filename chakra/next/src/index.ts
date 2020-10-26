@@ -29,7 +29,7 @@ export default builder()
   .addDependencyStep({
     name: 'Add npm dependencies',
     summary: `Chakra requires some other dependencies like emotion to work`,
-    packages: ['@chakra-ui/core@next'],
+    packages: ['@chakra-ui/core@next', 'framer-motion'],
   })
   .addTransformStep({
     name: 'Import ThemeProvider and CSSReset component',
