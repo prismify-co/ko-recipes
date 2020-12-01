@@ -38,7 +38,7 @@ export default builder()
     transform(program) {
       const stylesImport = j.importDeclaration(
         [j.importSpecifier(j.identifier('ChakraProvider'))],
-        j.literal('@chakra-ui/core')
+        j.literal('@chakra-ui/react')
       )
 
       addImport(program, stylesImport)
