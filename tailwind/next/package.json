@@ -1,7 +1,8 @@
 {
+  "name": "@prismify/ko-recipes-tailwind-next",
   "main": "src/index.ts",
   "dependencies": {
-    "@prismify/ko": "^0.3.3",
+    "@prismify/ko": "^0.4.0",
     "jscodeshift": "^0.11.0"
   },
   "devDependencies": {
