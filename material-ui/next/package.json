@@ -1,11 +1,11 @@
 {
-  "name": "@prismify/ko-recipes-materia-ui-next",
+  "name": "@prismify/ko-recipes-material-ui-next",
   "version": "1.0.0",
   "main": "src/index.ts",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@prismify/ko": "^0.3.3",
+    "@prismify/ko": "^4.0.0",
     "ast-types": "^0.14.2",
     "jscodeshift": "^0.11.0",
     "recast": "^0.20.3"
